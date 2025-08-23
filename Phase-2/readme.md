@@ -24,7 +24,10 @@ The analyzer detects **common web attacks** (SQL Injection, XSS, Path Traversal,
 * 🔒 **Brute force monitoring**
 
   * Flags IPs sending >50 requests within 20 seconds
-* 📡 **Live alerts on terminal** with IP, request, and type of anomaly
+* 📡 **Dual alerting**
+
+  * **Live alerts on terminal** with IP, request, and type of anomaly
+  * **Persistent alert storage** in `out/alerts.jsonl` for later analysis
 
 ---
 
@@ -77,11 +80,14 @@ python3 waf_analyzer.py
 ```
 
 * Continuously tails `logs/access.log`
-* Prints alerts in terminal when anomalies or brute force attempts are detected
+* Prints alerts in **terminal**
+* Saves alerts in **`out/alerts.jsonl`** for later analysis
 
 ---
 
 ## 🖥️ Example Output
+
+### Live Terminal
 
 ```
 [*] Real-time WAF Analyzer started...
@@ -90,11 +96,18 @@ python3 waf_analyzer.py
 [ALERT] XSS detected from 123.45.67.89 → "GET /search?q=<script>alert(1)</script> HTTP/1.1"
 ```
 
+### Stored Alerts (`out/alerts.jsonl`)
+
+```json
+{"type": "SQLi", "ip": "192.168.1.10", "log": "GET /login.php?id=1' OR '1'='1 HTTP/1.1", "time": "2025-08-23 19:30:02"}
+{"type": "Brute Force", "ip": "10.0.0.15", "log": "N/A", "time": "2025-08-23 19:30:10"}
+{"type": "XSS", "ip": "123.45.67.89", "log": "GET /search?q=<script>alert(1)</script> HTTP/1.1", "time": "2025-08-23 19:30:22"}
+```
+
 ---
 
 ## 🚀 Future Enhancements
 
-* Save alerts to `alerts.log` or `alerts.jsonl` for persistence
 * Assign **severity scores** per signature
 * Maintain an in-memory **blocklist of malicious IPs**
 * Add **GeoIP enrichment** (country/city info)
