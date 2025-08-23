@@ -63,6 +63,8 @@ tail -f logs/access.log
 
 Now you can observe requests being logged in real-time.
 
+<img width="958" height="430" alt="image" src="https://github.com/user-attachments/assets/73a84337-45c7-4d67-9b70-70e222287def" />
+
 ---
 
 ## 🛑 Notes
