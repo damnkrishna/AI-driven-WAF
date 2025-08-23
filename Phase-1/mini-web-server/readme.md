@@ -36,12 +36,10 @@ All requests are saved in:
 ```
 logs/access.log
 ```
+<img width="466" height="298" alt="image" src="https://github.com/user-attachments/assets/b2af0a3f-0b1e-4fa0-addb-c31ea1a35ed1" />
 
-Example:
 
-```
-127.0.0.1 - - [23/Aug/2025:20:25:01 +0530] "GET /search?q=test HTTP/1.1" 200 25 "-" "curl/7.81.0" "-"
-```
+
 NOTE:
 -remeber to run this script in one terminal 
 -also remeber to start this from starting in a virtual environment to keep the python and other stuff isolated from whole system 
