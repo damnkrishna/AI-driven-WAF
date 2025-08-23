@@ -29,6 +29,16 @@ Useful for testing requests and generating log data.
 * `/search?q=test` → echoes search query in JSON
 * `/admin` → returns **403 Forbidden**
 
+
+
+## Note:
+u can observe live entries in your access.log files live in real time by using another terminal and opening it with command 
+
+`tail -f logs/access.log `
+
+here -f flag means follow — you’ll see new log entries appear in real time as requests come in.
+
+
 ## 📂 Logs
 
 All requests are saved in:
