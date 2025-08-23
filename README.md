@@ -1,9 +1,6 @@
 # AI-driven-WAF
 
-Project Description (Short):
 This project focuses on building an intelligent security layer for web applications by analyzing server logs and access patterns. It detects anomalies, unusual behaviors, and potential malicious activity in real time, then responds with automated actions such as alerts or blocking suspicious IPs. By integrating AI/ML, the system continuously learns normal traffic behavior and adapts to evolving attack patterns, offering smarter and more proactive protection than traditional rule-based defenses.
-
-Suggestion one from chatgpt:
 
 
 ### 1. **Core Concept**
