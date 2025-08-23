@@ -28,7 +28,7 @@ web-log-analyzer/
 - `requirements.txt` → Lists all Python packages required for the project.
 
 ---
-<img width="1024" height="1536" alt="image" src="https://github.com/user-attachments/assets/ddf693d1-beaa-4c36-870b-c7e740fdc9fa" />
+<img width="102" height="153" alt="image" src="https://github.com/user-attachments/assets/ddf693d1-beaa-4c36-870b-c7e740fdc9fa" />
 
 ## ⚙️ Setup Instructions
 
