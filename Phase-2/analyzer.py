@@ -1,8 +1,14 @@
 import re
 import time
+import json
+import os
 from collections import defaultdict, deque
 
 LOG_FILE = "logs/access.log"
+ALERT_FILE = "out/alerts.jsonl"
+
+# make sure output directory exists
+os.makedirs("out", exist_ok=True)
 
 # Regex patterns for detecting common web attacks
 patterns = {
@@ -44,6 +50,11 @@ def brute_force_check(ip: str, timestamp: float):
         return True
     return False
 
+def write_alert(alert: dict):
+    """Save alert to file in JSONL format"""
+    with open(ALERT_FILE, "a", encoding="utf-8") as f:
+        f.write(json.dumps(alert) + "\n")
+
 def tail_f(filename):
     """Tail a log file like `tail -f`"""
     with open(filename, "r") as f:
@@ -60,12 +71,28 @@ if __name__ == "__main__":
     for log_line in tail_f(LOG_FILE):
         ip = extract_ip(log_line)
         now = time.time()
+        timestamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(now))
 
         # Attack pattern detection
         attack = detect_attack(log_line)
         if attack:
+            alert = {
+                "type": attack,
+                "ip": ip,
+                "log": log_line,
+                "time": timestamp
+            }
             print(f"[ALERT] {attack} detected from {ip} → {log_line}")
+            write_alert(alert)
 
         # Brute force detection
         if brute_force_check(ip, now):
-            print(f"[ALERT] Possible brute force from {ip} (>{MAX_REQUESTS} reqs/{TIME_WINDOW}s)")
+            alert = {
+                "type": "Brute Force",
+                "ip": ip,
+                "log": log_line,
+                "time": timestamp,
+                "detail": f">{MAX_REQUESTS} reqs/{TIME_WINDOW}s"
+            }
+            print(f"[ALERT] Possible brute force from {ip} ({alert['detail']})")
+            write_alert(alert)
