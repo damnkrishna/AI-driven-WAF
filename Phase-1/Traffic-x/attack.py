@@ -23,10 +23,19 @@ UAS = [
     "Mozilla/5.0 (compatible; bingbot/2.0)",
 ]
 
+def random_ip() -> str:
+    return ".".join(str(random.randint(1, 254)) for _ in range(4))
+
+
 def hit(path, ua):
     url = BASE + path
     try:
-        r = requests.get(url, headers={"User-Agent": ua}, timeout=3)
+        fake_ip = random_ip()
+        headers = {
+            "User-Agent": ua,
+            "X-Forwarded-For": fake_ip,
+        }
+        r = requests.get(url, headers=headers, timeout=3)
         return r.status_code
     except Exception:
         return None
