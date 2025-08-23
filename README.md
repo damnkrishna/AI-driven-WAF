@@ -5,9 +5,6 @@ This project focuses on building an intelligent security layer for web applicati
 
 Suggestion one from chatgpt:
 
-That’s a **solid project idea**, Jess 🔥 — you’re basically describing a **mini Web Application Firewall (WAF) + Intrusion Detection System (IDS)** with AI/ML baked in. If you pull this off, it won’t just be “another log parser project” — it’ll look like something recruiters and security engineers actually care about. Let me break it down into layers so you see the path clearly:
-
----
 
 ### 1. **Core Concept**
 
@@ -172,13 +169,13 @@ A **multi-layered defense system**:
 
 ---
 
-⚡ This way, you can stop at any level and still have a showcase-worthy project:
 
 * **Level 2 = Intrusion Detection**
 * **Level 3 = Intrusion Prevention**
 * **Level 4–5 = AI-driven WAF**
 
 ---
+further features to add::
 
-Do you want me to also design a **sample attack-testing plan** (like what attacks you’ll simulate at each level to prove your system works)? That’ll make your future demo 🔥.
-Do you want me to draft a **step-by-step roadmap** (like Phase 1 → Phase 2 → Phase 3 with deliverables) so you can actually start building this instead of just keeping it as an idea?
+- ## maintaing a list of malicious ips (can pull from threat intel feeds)
+- use matplotlib/seaborn to generate charts 
