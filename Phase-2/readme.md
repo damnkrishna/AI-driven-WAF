@@ -114,3 +114,12 @@ python3 waf_analyzer.py
 * Build a **live dashboard** for stats and alerts
 
 ---
+👉 Next natural steps for Phase 3 could be:
+
+Blocking/mitigation logic (instead of just alerting, actually block bad IPs in real-time — e.g., update firewall rules or maintain an in-memory blocklist).
+
+Alert enrichment (add request method, endpoint, user-agent, maybe GeoIP lookup).
+
+Dashboard/visualization (web-based live monitoring of attacks instead of just terminal).
+
+Configurable detection rules (let users update regex/patterns via a JSON/YAML rules file).
