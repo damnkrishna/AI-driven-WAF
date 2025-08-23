@@ -55,6 +55,22 @@ This will create the `sample_data/` folder and add:
 - `access.log`  
 - `client_hostname.csv`  
 
+### Important Notice about Dataset Paths
+
+After downloading and placing the dataset files (`access.log`, `client_hostname.csv`) into the `sample_data/` folder (or any other folder you choose), **please make sure to update the file path variables in the Python analyzer script accordingly**.
+
+For example, in your Python script, look for lines like:
+
+```python
+LOG_FILE = "sample_data/access.log"
+```
+
+Change the string `"sample_data/access.log"` to reflect the actual location where your `access.log` file is stored.
+
+***
+
+**This reminder helps avoid path errors and ensures your log analyzer script can correctly find and process the data.**
+
 ### 4. Run the Log Analyzer  
 ```
 python3 log_analyzer.py
