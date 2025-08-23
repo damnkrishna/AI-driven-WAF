@@ -45,22 +45,42 @@ def parse_logs():
 def generate_report():
     ip_counter, status_counter, suspicious = parse_logs()
 
-    with open(REPORT_FILE, "w") as f:
-        f.write("=== Web Log Analysis Report ===\n\n")
-        f.write(f"Total unique IPs: {len(ip_counter)}\n")
-        f.write("Top 5 IPs:\n")
-        for ip, count in ip_counter.most_common(5):
-            f.write(f"  {ip}: {count} requests\n")
+    report_lines = []
+    report_lines.append("=== Web Log Analysis Report ===\n")
 
-        f.write("\nStatus Codes:\n")
-        for status, count in status_counter.items():
-            f.write(f"  {status}: {count}\n")
+    # Total unique IPs
+    report_lines.append(f"📊 Total Unique IPs: {len(ip_counter)}\n")
 
-        f.write(f"\nSuspicious Requests Detected: {len(suspicious)}\n")
-        for req in suspicious[:10]:  # only show first 10
-            f.write(f"  {req}\n")
+    # Top 5 IPs
+    report_lines.append("🔝 Top 5 IPs")
+    report_lines.append("-" * 40)
+    report_lines.append(f"{'IP Address':<20} {'Requests':>10}")
+    for ip, count in ip_counter.most_common(5):
+        report_lines.append(f"{ip:<20} {count:>10}")
+    report_lines.append("")
 
-    print(f"✅ Report generated: {REPORT_FILE}")
+    # Status codes
+    report_lines.append("📈 Status Codes")
+    report_lines.append("-" * 40)
+    report_lines.append(f"{'Status':<10} {'Count':>10}")
+    for status, count in status_counter.most_common():
+        report_lines.append(f"{status:<10} {count:>10}")
+    report_lines.append("")
+
+    # Suspicious requests
+    report_lines.append(f"⚠️  Suspicious Requests Detected: {len(suspicious)}")
+    report_lines.append("-" * 40)
+    for req in suspicious[:10]:  # Show only first 10 for brevity
+        report_lines.append(req)
+    if len(suspicious) > 10:
+        report_lines.append(f"...and {len(suspicious)-10} more\n")
+
+    # Write to file
+    with open("output/report.txt", "w") as f:
+        f.write("\n".join(report_lines))
+
+    print("✅ Report generated: output/report.txt")
+
 
 if __name__ == "__main__":
     generate_report()
