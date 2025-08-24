@@ -27,7 +27,7 @@ You can install all requirements with:
 
 ```bash
 pip install -r requirements.txt
-
+```
 
 ## 🏋️ Training the Model
 
