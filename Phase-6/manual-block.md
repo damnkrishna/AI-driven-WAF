@@ -89,10 +89,4 @@ sudo netfilter-persistent save
 * Always check logs first to confirm malicious activity
 * This manual method is safe for learning before automating blocking in Phase 6 of your WAF project
 
----
 
-This README gives a **step-by-step guide** for manually maintaining a blocklist with `iptables`, verifying blocked IPs, and removing them when needed.
-
----
-
-If you want, I can also create a **tiny Python helper script** that reads a `blocklist.txt` and applies/removes `iptables` rules automatically—still manual, but easier than typing commands every time. Do you want me to do that?
