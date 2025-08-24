@@ -1,0 +1,27 @@
+┌──(venv)─(damnkrishna㉿kali)-[~]
+└─$ python3 predict.py   
+
+=== Predictions on Full Dataset ===
+       Actual  Predicted
+0      normal  malicious
+1      normal  malicious
+2      normal  malicious
+3      normal     normal
+4      normal  malicious
+5      normal  malicious
+6      normal  malicious
+7      normal     normal
+8      normal  malicious
+9   malicious  malicious
+10     normal     normal
+11     normal     normal
+12     normal  malicious
+13  malicious  malicious
+14  malicious  malicious
+15     normal     normal
+16     normal  malicious
+17  malicious  malicious
+18     normal     normal
+19  malicious  malicious
+
+Overall Accuracy on full dataset: 0.74
