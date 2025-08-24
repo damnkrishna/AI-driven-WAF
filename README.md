@@ -11,7 +11,7 @@ This project focuses on building an intelligent security layer for web applicati
   * **Detect anomalies or malicious behavior** (SQLi attempts, XSS payloads, brute-force login attempts, unusual request rates).
   * **Take action** → either alert, block the request, or ban the IP temporarily.
 
-This is basically an **AI-driven anomaly detection & response system** for web apps.
+This is basically an **ML-driven anomaly detection & response system** for web apps.
 
 ---
 
