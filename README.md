@@ -75,104 +75,107 @@ This is basically an **AI-driven anomaly detection & response system** for web a
 
 ---
 
-👉 If you finish this, it’s essentially a **research-grade project**. You can pitch it as:
+## 📌 Project Roadmap (Phased Development)
 
-* **AI-based Intrusion Detection/Prevention for Web Applications**
-* Looks great on a **resume + GitHub + blog**.
-* Recruiters will see *real-world application* → log analysis, anomaly detection, automated defense.
+### **Phase 0 → Passive Analysis**
 
----
-
-
-suggestion 2 from chatgpt:
-
-Perfect, Jess 👍 Let’s break this into **levels** so you don’t get overwhelmed, and so you always have a working project at each stage. By the time you hit the last level, you’ll have something that looks like an **AI-driven WAF prototype**.
+* Performed passive **web log analysis** using a Kaggle dataset.
+* Extracted insights: request distributions, anomalies, common endpoints.
+* Built foundation for feature engineering and log parsing.
 
 ---
 
-## 🚀 Level-Wise Project Roadmap
+### **Phase 1 → Mini Web Server Setup**
 
-### **Level 1 → Log Analyzer (Foundation)**
+* Built a **mini web server** running on `localhost:8080`.
+* Stored all incoming requests in `access.log`.
+* Automated a traffic generator script to continuously send requests.
+* Observed logs in real-time using `tail -f access.log`.
 
-**Goal:** Parse and understand logs.
+---
 
-* Collect web server logs (Apache, Nginx, or mock logs).
-* Write a Python script to:
+### **Phase 2 → Real-Time Monitoring & Alerts**
 
-  * Extract fields (IP, timestamp, request, status code, user-agent).
-  * Summarize traffic (most common IPs, request frequency, top endpoints).
-* **Output:** Simple CLI or JSON summary of log activity.
+* Created a real-time **log analyzer** that:
 
-## ✅ *Skills built:* log parsing, regex, data structuring.
+  * Reads `access.log` continuously.
+  * Matches suspicious patterns (SQLi, XSS, Directory Traversal, Brute Force).
+  * Displays alerts in terminal.
+  * Stores alerts in a structured file `alerts.jsonl`.
 
-### **Level 2 → Rule-Based Attack Detection**
+---
 
-**Goal:** Spot obvious attacks using signatures & thresholds.
+### **Phase 3 → Dataset Creation**
 
-* Add detection for:
+* Converted raw logs into a **pretty formatted table** (`dataset_pretty.txt`) for human readability.
+* Built a structured **CSV dataset (`output/dataset.csv`)** with:
 
-  * SQLi patterns (`UNION SELECT`, `' OR 1=1`).
-  * XSS patterns (`<script>`, `onerror=`).
-  * Brute force → too many login failures from one IP.
-* Trigger alerts (print to console, save in alert.log, or send an email/Slack notification).
+  * Columns: `src_ip`, `timestamp`, `method`, `request`, `status`, `size`, `user_agent`, `attack_type`, `label`
+  * Labels: `normal` / `malicious`
+* Dataset now usable for ML training.
 
-## ✅ *Skills built:* threat signatures, pattern matching, intrusion detection logic.
+---
 
-### **Level 3 → Automated Response**
+### **Phase 4 → Machine Learning Model**
 
-**Goal:** Don’t just detect — react.
+* Trained a **RandomForest ML model** on `dataset.csv`.
+* Used **80% training / 20% testing split**.
+* Saved trained model as `output/model.pkl`.
+* Achieved **74% accuracy** on test data.
+* Scripts:
 
-* If suspicious IP detected →
+  * `train_model.py` → trains and saves the model.
+  * `predict.py` → loads model, predicts malicious vs normal.
 
-  * Add it to a blocklist file.
-  * Auto-update firewall rules (`iptables`, `ufw`) or nginx deny rules.
-* Provide an option: **Alert-only mode** vs **Block mode**.
+---
 
-## ✅ *Skills built:* system automation, firewall integration, defensive scripting.
+### **Phase 5 → Predict New Logs**
 
-### **Level 4 → Anomaly Detection with ML**
+* Extended the system to:
 
-**Goal:** Go beyond static rules — detect “weird” behavior.
+  * Take **new/unseen logs** as input.
+  * Predict whether they are `normal` or `malicious`.
+  * Output results in structured format.
+* Moves detection from “offline dataset analysis” → **real-time prediction**.
 
-* Collect baseline of **normal traffic** (requests per IP, status code distribution, URL usage).
-* Train a model (Isolation Forest, One-Class SVM, or Autoencoder) to learn “normal.”
-* Feed new traffic → flag outliers as suspicious.
-* Combine with rules → hybrid detection.
+---
 
-## ✅ *Skills built:* ML basics, anomaly detection, using scikit-learn.
+### **Phase 6 → Automated Blocklist & IP Blocking**
 
-### **Level 5 → Smart Dashboard & Continuous Learning**
+* Maintains a **list of malicious IPs**:
 
-**Goal:** Make it usable + smarter.
+  * Can integrate with **threat intelligence feeds**.
+  * Learns malicious IPs from predictions + rule detections.
+* Response engine:
 
-* Build a small dashboard (Flask + Chart.js or Kibana) to visualize:
+  * **Alert-only mode** → log the incident.
+  * **Block mode** → auto-update firewall rules (`iptables` / `ufw`) or `nginx` deny rules.
+* ML model + blocklist = **AI-driven Intrusion Prevention System**.
 
-  * Active attacks detected
-  * Blocked IPs
-  * Traffic patterns
-* Add **feedback loop**: you can mark alerts as False Positive/True Positive → system retrains ML model.
-* Optional: Dockerize for easy deployment.
+---
 
-## ✅ *Skills built:* full-stack integration, visualization, AI feedback systems.
+## 📊 Planned Enhancements
+
+* Visualization of traffic & attack stats using **matplotlib/seaborn**.
+* Dashboard integration (Flask + Chart.js, or ELK stack).
+* Feedback loop to retrain ML model using analyst-labeled data.
+* Dockerized deployment for lab simulation.
+
+---
 
 ## 🎯 Final Outcome
 
-A **multi-layered defense system**:
+By the end of Phase 6, you will have a **multi-layered AI-WAF prototype**:
 
-* Reads logs in real-time.
-* Detects attacks via rules & ML.
-* Alerts + auto-blocks malicious traffic.
-* Learns and adapts over time.
+* Parses & monitors logs in real-time.
+* Detects anomalies via **rules + ML model**.
+* **Alerts & auto-blocks** malicious traffic.
+* Continuously learns & adapts to new threats.
 
----
-
-
-* **Level 2 = Intrusion Detection**
-* **Level 3 = Intrusion Prevention**
-* **Level 4–5 = AI-driven WAF**
+This project evolves from a **basic log analyzer** → to an **AI-powered intrusion detection system (IDS)** → to a **self-learning WAF**.
 
 ---
-further features to add::
 
-- ## maintaing a list of malicious ips (can pull from threat intel feeds)
-- use matplotlib/seaborn to generate charts 
+✨ **Tags**: Cybersecurity, Machine Learning, Intrusion Detection, Log Analysis, AI-WAF
+
+---
