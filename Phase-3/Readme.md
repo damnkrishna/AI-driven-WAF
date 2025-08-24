@@ -4,104 +4,99 @@ This phase focuses on **training a Machine Learning (ML) model on historical web
 
 ---
 
-## 📌 Project Overview
-
-1. **Data Sources**
-
-   * `malicious_logs.txt` → IDS-style dataset containing only malicious requests.
-   * `all_logs.txt` → Full web access logs containing both normal and malicious traffic.
-
-2. **Goal**
-
-   * Convert raw logs into a **structured CSV dataset**.
-   * Train ML models to **differentiate normal vs. malicious requests**.
-   * Deploy a pipeline that can process **new real-time logs** and flag anomalies.
+This project focuses on analyzing and labeling web server logs to identify suspicious or malicious requests (e.g., SQL Injection, XSS, Directory Traversal).  
+It organizes log data into a **human-readable format** as well as a **structured CSV dataset** suitable for training machine learning models in later phases.
 
 ---
 
-## 🛠️ Steps Implemented
+## Features Implemented So Far
+1. **Log Parsing (`label.py`)**  
+   - Reads raw web server logs (`logs/access.log`).  
+   - Detects suspicious patterns (SQL injection, XSS, directory traversal, etc.).  
+   - Labels each log entry as either **Normal** or **Malicious**.  
+   - Assigns an **attack type** if malicious (otherwise left blank).  
 
-### 1. Data Preprocessing
+2. **Prettified Dataset (`output/dataset_pretty.txt`)**  
+   - Nicely formatted logs with aligned columns.  
+   - Automatically adjusts column spacing based on the longest entry in each column.  
+   - Easy to read for humans when analyzing raw requests.  
 
-* Extract structured fields from raw log lines:
-
-  * `src_ip`, `dst_ip`, `timestamp`, `method`, `url`, `status`, `bytes`, `user_agent`, `label`
-* Label requests:
-
-  * `normal` = benign requests
-  * `malicious` = attack requests (from malicious dataset or pattern detection)
-* Remove duplicates and clean noise (crawler/bot traffic if irrelevant).
-
-### 2. Dataset Generation
-
-* Merge `malicious_logs.txt` and `all_logs.txt`.
-* Save final dataset as `dataset.csv`.
-* Example row:
-
-| src\_ip         | dst\_ip         | timestamp            | method | url                   | status | bytes | user\_agent       | label     |
-| --------------- | --------------- | -------------------- | ------ | --------------------- | ------ | ----- | ----------------- | --------- |
-| 138.176.237.216 | 138.176.237.216 | 23/Aug/2025:22:27:08 | GET    | /login.php?user=alice | 200    | 40    | Mozilla/5.0 (bot) | malicious |
-
-### 3. Model Training
-
-* Use the structured dataset to train ML models (e.g., **Random Forest, XGBoost, Logistic Regression**).
-* Features extracted:
-
-  * Request method (GET/POST)
-  * URL/query length
-  * Special characters in URL (e.g., `'`, `<script>`, `../`)
-  * Response status code
-  * Bytes transferred
-  * User-Agent keywords
-
-### 4. Real-Time Detection
-
-* New logs are parsed in the same way.
-* Trained model predicts if each request is **normal** or **malicious**.
-* Can be integrated with streaming tools (Kafka, RabbitMQ) or log forwarders (Filebeat, Fluentd).
+3. **CSV Dataset for ML (`output/dataset.csv`)**  
+   - Stores logs in structured format:
+     ```
+     src_ip,timestamp,method,url,status,attack_type,label
+     ```
+   - `label`: `Normal` or `Malicious`.  
+   - `attack_type`: Specific attack (e.g., SQLi, XSS, Directory Traversal) or blank for normal requests.  
+   - This CSV will later be used to train ML models for log classification.  
 
 ---
 
-## ▶️ How to Run
+## Project Phase Progress
+- **Phase 0**: Project setup (directory structure, basic file handling). ✅  
+- **Phase 1**: Parsing raw access logs. ✅  
+- **Phase 2**: Detecting suspicious patterns and labeling. ✅  
+- **Phase 3**: Generating datasets for ML training. ✅  
 
-### 1. Preprocess Logs
+Currently, the project outputs:
+- `dataset_pretty.txt` → Human-readable aligned dataset.  
+- `dataset.csv` → ML training dataset.  
+
+---
+
+## Next Steps
+- **Phase 4**: Train a machine learning model (e.g., Logistic Regression, Random Forest, or an LSTM for sequences) on `dataset.csv`.  
+- **Phase 5**: Implement real-time log analysis (streaming detection).  
+- **Phase 6**: Build a small dashboard or CLI tool to visualize suspicious activity.  
+
+---
+
+## Running the Project
+
+### 1. Clone the Repository
+```bash
+git clone <your-repo-url>
+cd web-log-analyzer
+````
+
+### 2. Run the Script
 
 ```bash
-python3 log_to_csv.py
+python3 label.py
 ```
 
-* Input: `malicious_logs.txt`, `all_logs.txt`
-* Output: `dataset.csv`
-
-### 2. Train Model
-
-```bash
-python3 train_model.py
-```
-
-* Loads `dataset.csv`
-* Trains & saves ML model as `model.pkl`
-
-### 3. Real-Time Detection
-
-```bash
-python3 detect_realtime.py new_logs.txt
-```
-
-* Input: New log file (`new_logs.txt`)
-* Output: Predictions (Normal/Malicious) printed or saved as CSV
+* The script will read `logs/access.log`.
+* Output will be stored inside the `output/` folder.
 
 ---
 
-## 📊 Future Improvements
+## Example Output
 
-* Expand features with **NLP (TF-IDF, embeddings)** on request URLs.
-* Build a **streaming pipeline** for real-time classification.
-* Add **attack categories** (SQLi, XSS, Path Traversal) instead of just `malicious`.
-* Integrate with **SIEM dashboards** for visualization.
+### dataset\_pretty.txt
+
+```
+IP              Timestamp           Method   URL                           Status   Attack_Type         Label
+192.168.1.10    [24/Aug/2025:11:32] GET      /index.html                   200      -                  Normal
+192.168.1.15    [24/Aug/2025:11:33] GET      /index.php?id=1 UNION SELECT  500      SQL Injection      Malicious
+```
+
+### dataset.csv
+
+```
+src_ip,timestamp,method,url,status,attack_type,label
+192.168.1.10,[24/Aug/2025:11:32],GET,/index.html,200,,Normal
+192.168.1.15,[24/Aug/2025:11:33],GET,/index.php?id=1 UNION SELECT,500,SQL Injection,Malicious
+```
 
 ---
 
+## Tech Stack
+
+* **Python 3**
+* **Regex** for suspicious pattern detection
+* **CSV module** for dataset generation
+
+---
 
 ✅ With this phase, you now have an ML pipeline that learns from past log patterns and detects anomalies in real-time.
 
