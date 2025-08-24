@@ -89,6 +89,8 @@ python3 predict.py
 
 
 ---
+<img width="472" height="573" alt="image" src="https://github.com/user-attachments/assets/51c69275-fec7-468b-a211-e83547486d8c" />
+
 
 ## 🔮 Next Steps (Optional Enhancements)
 
