@@ -1,44 +1,92 @@
 import re
 import csv
+import os
 
-ACCESS_LOG = "logs/access.log"
-OUTPUT_FILE = "dataset.csv"
+LOG_FILE = "logs/access.log"
+CSV_FILE = "output/dataset.csv"
+PRETTY_FILE = "output/dataset_pretty.txt"
 
-# Regex for parsing standard access.log lines
-log_pattern = re.compile(
-    r'(?P<src_ip>\d+\.\d+\.\d+\.\d+).*?'
-    r'\[(?P<timestamp>[^\]]+)\] '
-    r'"(?P<method>GET|POST) (?P<url>.*?) HTTP/1.[01]" '
-    r'(?P<status>\d+) (?P<bytes>\d+) '
-    r'"(?P<referrer>.*?)" "(?P<user_agent>.*?)"'
-)
-
-# Malicious patterns
-patterns = {
-    "sqli": re.compile(r"(\%27)|(\')|(\-\-)|(\%23)|(#)|union.*select|select.*from|insert.*into", re.IGNORECASE),
-    "xss": re.compile(r"(<script>|%3Cscript|onerror|alert\()", re.IGNORECASE),
-    "traversal": re.compile(r"(\.\./|\.\.\\)", re.IGNORECASE),
-    "cmd_injection": re.compile(r"(;|\|\||&&|wget|curl)", re.IGNORECASE),
+# Suspicious patterns with attack type labels
+SUSPICIOUS_PATTERNS = {
+    r"\.\./": "Directory Traversal",
+    r"select.+from": "SQL Injection",
+    r"union.+select": "SQL Injection",
+    r"<script>": "XSS",
+    r"\.php\?": "PHP Injection",
+    r"/etc/passwd": "Local File Inclusion",
 }
 
-def is_malicious(url):
-    for name, regex in patterns.items():
-        if regex.search(url):
-            return True
-    return False
+# Regex for parsing Apache logs
+LOG_PATTERN = re.compile(
+    r'(?P<ip>\S+) \S+ \S+ \[(?P<time>.*?)\] "(?P<method>\S+) (?P<url>\S+) \S+" (?P<status>\d+) (?P<size>\S+)'
+)
 
-with open(ACCESS_LOG, "r") as infile, open(OUTPUT_FILE, "w", newline="") as outfile:
-    writer = csv.writer(outfile)
-    writer.writerow(["src_ip","timestamp","method","url","status","bytes","user_agent","label"])
+def parse_log_line(line):
+    """Parse one line from access.log"""
+    match = LOG_PATTERN.match(line)
+    if match:
+        return match.groupdict()
+    return None
 
-    for line in infile:
-        match = log_pattern.search(line)
-        if match:
-            data = match.groupdict()
-            label = "malicious" if is_malicious(data["url"]) else "normal"
-            writer.writerow([
-                data["src_ip"], data["timestamp"], data["method"], data["url"],
-                data["status"], data["bytes"], data["user_agent"], label
-            ])
+def detect_attack(url):
+    """Detect attack type based on URL patterns"""
+    for pattern, attack_type in SUSPICIOUS_PATTERNS.items():
+        if re.search(pattern, url, re.IGNORECASE):
+            return attack_type
+    return ""
 
-print(f"✅ Clean dataset created: {OUTPUT_FILE}")
+def main():
+    if not os.path.exists(LOG_FILE):
+        print(f"❌ Log file not found: {LOG_FILE}")
+        return
+
+    entries = []
+
+    # Step 1: Parse logs
+    with open(LOG_FILE, "r") as f:
+        for line in f:
+            parsed = parse_log_line(line)
+            if parsed:
+                attack_type = detect_attack(parsed["url"])
+                label = "malicious" if attack_type else "normal"
+                entries.append([
+                    parsed["ip"],
+                    parsed["time"],
+                    parsed["method"],
+                    parsed["url"],
+                    parsed["status"],
+                    parsed["size"],
+                    label,
+                    attack_type
+                ])
+
+    # Step 2: Write CSV
+    os.makedirs("output", exist_ok=True)
+    headers = ["src_ip", "timestamp", "method", "url", "status", "size", "label", "attack_type"]
+    with open(CSV_FILE, "w", newline="") as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(headers)
+        writer.writerows(entries)
+
+    # Step 3: Write Pretty File (aligned columns)
+    col_widths = [len(h) for h in headers]
+    for row in entries:
+        for i, col in enumerate(row):
+            col_widths[i] = max(col_widths[i], len(str(col)))
+
+    with open(PRETTY_FILE, "w") as f:
+        # Header
+        header_row = "  ".join(h.ljust(col_widths[i]) for i, h in enumerate(headers))
+        f.write(header_row + "\n")
+        f.write("-" * len(header_row) + "\n")
+
+        # Data rows
+        for row in entries:
+            formatted = "  ".join(str(col).ljust(col_widths[i]) for i, col in enumerate(row))
+            f.write(formatted + "\n")
+
+    print(f"✅ Dataset saved as {CSV_FILE}")
+    print(f"✅ Pretty formatted dataset saved as {PRETTY_FILE}")
+
+if __name__ == "__main__":
+    main()
