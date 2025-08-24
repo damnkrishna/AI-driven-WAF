@@ -1,4 +1,4 @@
-# 🚀 Phase 3 – Machine Learning for Anomaly Detection in Web Logs
+# 🚀 Phase 3 – Dataset conversion to train ML model
 
 This phase focuses on **training a Machine Learning (ML) model on historical web server logs** to detect malicious traffic (SQLi, XSS, directory traversal, etc.) in **real-time incoming logs**.
 
