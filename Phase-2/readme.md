@@ -1,4 +1,4 @@
-# 🛡️ AI-Driven WAF — Phase 2 (Analyzer)
+# 🛡️ Phase 2 (Analyzer)
 
 ## 📌 Overview
 
