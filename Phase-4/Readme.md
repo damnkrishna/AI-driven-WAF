@@ -1,6 +1,8 @@
 # 🚀 Model Training & Prediction Guide
 
 This guide explains how to train a Machine Learning model using `dataset.csv`, save it, and then use it for predictions.
+It includes scripts for **training a model** and **making predictions** with accuracy evaluation.  
+
 
 ---
 
@@ -11,6 +13,21 @@ This guide explains how to train a Machine Learning model using `dataset.csv`, s
 * `predict.py` → Script to load the saved model and make predictions.
 
 ---
+# Requirements
+
+This project needs the following Python libraries:
+
+- **pandas** → for loading and handling `dataset.csv`  
+- **scikit-learn** → for training and prediction (ML models)  
+- **joblib** → for saving and loading the trained model  
+
+## Installation
+
+You can install all requirements with:
+
+```bash
+pip install -r requirements.txt
+
 
 ## 🏋️ Training the Model
 
@@ -24,30 +41,58 @@ This guide explains how to train a Machine Learning model using `dataset.csv`, s
 
 3. This will:
 
-   * Load `dataset.csv`
-   * Train a machine learning classifier
-   * Save the model as `model.pkl`
+   * This will read `output/dataset.csv`
+   * Train a machine learning model on the data
+   * Save the trained model to:
+
+  ```
+  output/model.pkl
+  ```
 
 ---
 
-## 🔍 Using the Model for Predictions
 
-1. Once the model is saved (`model.pkl`), you can make predictions with:
+## Make Predictions
 
-   ```bash
-   python3 predict.py "GET /index.php?id=1 UNION SELECT password FROM users"
-   ```
+Run the prediction script to test the trained model:
 
-2. Output will show whether the request is:
+```bash
+python3 predict.py
+```
 
-   * `Normal`
-   * or `Malicious` (with predicted attack type, if included)
+* This will:
+
+  * Load `output/dataset.csv`
+  * Load `output/model.pkl`
+  * Run predictions
+  * Print accuracy on the dataset
 
 ---
+
+## ✅ Example Workflow
+
+```bash
+# Train model
+python3 train_model.py
+
+# Run predictions and check accuracy
+python3 predict.py
+```
 
 ## ⚡ Workflow Summary
 
 1. Update/clean `dataset.csv`
 2. Train the model → `python3 train_model.py`
-3. Predict with saved model → `python3 predict.py "<log/request>"`
+3. Predict with saved model → `python3 predict.py `
+
+
+
+
+---
+
+## 🔮 Next Steps (Optional Enhancements)
+
+* Accept **new unseen data** for predictions instead of reusing dataset.csv
+* Add **visualizations** (confusion matrix, feature importance, etc.)
+* Experiment with different ML algorithms
 
