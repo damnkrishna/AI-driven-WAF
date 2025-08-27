@@ -81,8 +81,6 @@ sudo netfilter-persistent save
 
 * Ensures your blocked IPs stay blocked **even after a system reboot**
 
----
-
 ## ⚠️ Notes & Tips
 
 * Only block **attacker IPs**; avoid your own machine IP
