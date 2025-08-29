@@ -160,6 +160,7 @@ This is basically an **ML-driven anomaly detection & response system** for web a
 * Dashboard integration (Flask + Chart.js, or ELK stack).
 * Feedback loop to retrain ML model using analyst-labeled data.
 * Dockerized deployment for lab simulation.
+* adding more iot devices their data set and stuff
 
 ---
 
