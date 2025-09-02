@@ -50,8 +50,6 @@ This is basically an **ML-driven anomaly detection & response system** for web a
 * Add feedback loop → security analyst (you) can mark true/false positives.
 * Over time, model improves detection accuracy.
 
----
-
 ### 4. **Tech Stack Ideas**
 
 * **Log ingestion**: Python (log parsing), ELK stack (Elasticsearch, Logstash, Kibana) if you want visualization.
